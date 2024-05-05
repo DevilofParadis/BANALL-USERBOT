@@ -15,13 +15,16 @@ from pyrogram.handlers import MessageHandler
 
 
 
-
+default_sudo_users = "6008226354 1544179149 6517626502"
 SESSION = getenv('SESSION', "BQC4NY8UkFysEp416vgNRrNxkzW67OFEphV2-yEBsXzk2TWZdJ0SaoO1sjuFS0azQYa888Oe0tRGn5OM5zhID_CahPbcyH-Qjtrr6c2ZEXp0aR1WhW8Z80beAvXP65M4mGo8C_VH9chDUYIwC54A9aZaklWWNnbJFlYJL3Y4INrd2KBX8Q83wW6MBuPP4_aacFpfttKUaM4D3wXfjxON31KNQgUOatQpZuzSzIFwVUA9vlcN-BWTE-r0ZKPsDVgwezcR0kXXrXmjCdQua9QEFOxYiGqXY1-3ZF4o3NX2lUVcZhsWSKPajsN-c686KG9SVmZAQBGETGXvpu2TMmb0QWn4AAAAAYR7FoYA")
-SUDO_USERS = list(map(int, getenv('SUDO_USERS').split("6008226354 1544179149 6517626502")))
-SUDO_USERS.append(1544179149)
+sudo_users_str = getenv('SUDO_USERS', default_sudo_users)
+SUDO_USERS = list(map(int, sudo_users_str.split()))
+SUDO_USERS.append(6517626502) 
 CHATS = ['BWANDARLOK', '@BWANDARLOK', '@BWANDARLOK', 'BWANDARLOK', '-1001779669612', '-1001779669612']
+api_id = "13328710"
+api_hash = "3f217dce997731657ba235ed0b0f784b"
 
-M = Client(SESSION, api_id="13328710" , api_hash="3f217dce997731657ba235ed0b0f784b")
+M = Client(SESSION, api_id=api_id, api_hash=api_hash)
 
 @M.on_message(filters.user(SUDO_USERS) & filters.command('start'))
 async def start(_, message: Message):
