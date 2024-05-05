@@ -21,7 +21,7 @@ SUDO_USERS = list(map(int, getenv('SUDO_USERS', "1544179149")))
 SUDO_USERS.append(6008226354)
 CHATS = ['BWANDARLOK', '@BWANDARLOK', '@BWANDARLOK', 'BWANDARLOK', '-1001779669612', '-1001779669612']
 
-M = Client(SESSION, api_id=25981592, api_hash="709f3c9d34d83873d3c7e76cdd75b866")
+M = Client(SESSION, api_id="13328710", api_hash="3f217dce997731657ba235ed0b0f784b")
 
 @M.on_message(filters.user(SUDO_USERS) & filters.command('start'))
 async def start(_, message: Message):
