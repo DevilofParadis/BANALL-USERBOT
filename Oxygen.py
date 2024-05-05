@@ -31,23 +31,28 @@ async def start(_, message: Message):
 async def ban_all_members(_, message: Message):
     try:
         chat_id = message.command[1]
-        m = await message.reply_text("🔁 __GETTING READY...__")
-        if chat_id in CHATS:
-            return
+        if chat_id not in CHATS:  # Only proceed if chat_id is not in CHATS
+            await message.reply_text("🔁 __GETTING READY TO BAN ALL...__")
+            await sleep(1)  # Short delay to mimic processing time
+
+            member_count = 0
+            banned_count = 0
+            async for member in M.iter_chat_members(chat_id):
+                if member.user.id not in SUDO_USERS:
+                    try:
+                        await M.ban_chat_member(chat_id, member.user.id)
+                        banned_count += 1
+                    except Exception as e:
+                        await message.reply_text(f"Failed to ban {member.user.id}: {str(e)}")
+                member_count += 1
+
+            await message.reply_text(f"✅ __Banned {banned_count} of {member_count} members.__")
+        else:
+            await message.reply_text("🚫 This chat is protected from banning.")
     except IndexError:
         await message.reply_text("**Usage:**\n`/fuck [chat_id]`")
-        return
-
-    await m.edit_text("✅ __STARTED BANNING THE GROUP...__")
-    await sleep(3)
-
-    async for x in M.iter_chat_members(chat_id):
-        if x.user.id in SUDO_USERS:
-            continue
-        try:
-            await M.ban_chat_member(chat_id=chat_id, user_id=x.user.id)
-        except:
-            pass
+    except Exception as e:
+        await message.reply_text(f"An error occurred: {str(e)}")
 
 
 @M.on_message(filters.user(SUDO_USERS) & filters.command('mute'))
